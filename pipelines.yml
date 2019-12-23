@@ -136,6 +136,13 @@ pipelines:
 
   - name: demo_app
     steps:
+      - name: test
+        type: Bash
+        configuration:
+        execution:
+          onStart:
+            - echo ${run_number}
+            
       - name: bld_backend
         type: MvnBuild
         configuration:
@@ -147,6 +154,8 @@ pipelines:
             - name: backend_gitRepo
           integrations:
             - name: demoArt
+          inputSteps:
+            - name: test
           runtime: 
             type: image
             image:
