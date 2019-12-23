@@ -138,7 +138,6 @@ pipelines:
     steps:
       - name: test
         type: Bash
-        configuration:
         execution:
           onStart:
             - echo ${run_number}
