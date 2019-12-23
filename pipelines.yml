@@ -99,7 +99,7 @@ pipelines:
         configuration:
           dockerFileLocation: .
           dockerFileName: Dockerfile
-          dockerImageName: 35.192.150.93:8082/docker-local/gomicrosvc
+          dockerImageName: 34.74.17.177:8082/docker-local/gomicrosvc
           dockerImageTag: ${run_number}
           inputResources:
             - name: go_gitRepo
@@ -202,7 +202,7 @@ pipelines:
         type: Bash
         configuration:
           environmentVariables:
-            dockerImageName: 35.192.150.93:8082/docker-local/app
+            dockerImageName: 34.74.17.177:8082/docker-local/app
             dockerImageTag: ${run_number}
           inputResources:
             - name: backend_gitRepo
@@ -222,7 +222,7 @@ pipelines:
             - add_run_variables ${step_name}_buildName=${pipeline_name}
             - docker build --pull --no-cache -t $dockerImageName:$dockerImageTag --build-arg REGISTRY=${int_demoArt_url} .
             - jfrog rt bce $pipeline_name $run_number
-            - jfrog rt docker-push 35.192.150.93:8082/docker-local/app:$run_number docker-local --build-name=$pipeline_name --build-number=$run_number
+            - jfrog rt docker-push 34.74.17.177:8082/docker-local/app:$run_number docker-local --build-name=$pipeline_name --build-number=$run_number
             - add_run_files /tmp/jfrog/. jfrog
 
       - name: publish_app_build
@@ -307,7 +307,7 @@ pipelines:
 #        configuration:
 #          environmentVariables:
 #            docker_repository: demoPipelines
-#            artifactory_address: 34.66.107.45:8090
+#            artifactory_address: 34.74.17.177:8090
 #          integrations:
 #            - name: demoEdge
 #          inputResources:
