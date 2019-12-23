@@ -82,7 +82,7 @@ resources:
       cityName: "*"
       countryCodes:
         - "CN"
-        - "GB"
+       # - "GB"
 
   - name: deploy_vm
     type: VmCluster
