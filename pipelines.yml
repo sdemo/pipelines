@@ -105,6 +105,9 @@ pipelines:
             - name: go_gitRepo
           integrations:
             - name: demoArt
+        execution:
+          onStart:
+            - echo ${run_number}
 
       - name: push_svc
         type: DockerPush
