@@ -297,7 +297,15 @@ pipelines:
             - name: releaseBundle
           outputResources:
             - name: signedBundle
-
+      
+      - name: demo_scan
+        type: XrayScan
+        configuration:
+          integrations:
+            - name: varsha_artifactory
+          inputResources:
+            - name: svc_promoted_build_info
+            
       - name: distribute
         type: DistributeReleaseBundle
         configuration:
