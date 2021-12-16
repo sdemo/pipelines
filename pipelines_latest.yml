@@ -3,7 +3,7 @@ resources:
     type: GitRepo
     configuration:
       path: sdemo/go-service
-      gitProvider: demo_github
+      gitProvider: sdemo
 
   - name: gosvc_build
     type: BuildInfo
