@@ -102,7 +102,8 @@ pipelines:
 #           dockerImageName: avinci-docker-local.jfrog.io/gosvc
           dockerImageName: demo.jfrog-pipelines.com/pip-docker-dev-local/gosvc
           dockerImageTag: ${run_number}
-          JFROG_CLI_BUILD_NAME: gosvc_build
+          environmentVariables:
+            JFROG_CLI_BUILD_NAME: gosvc_build
           inputResources:
             - name: gosvc_code
           integrations:
