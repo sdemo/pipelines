@@ -47,30 +47,26 @@ resources:
       path: sdemo/vue-frontend
       gitProvider: sdemo
 
-  # - name: release_bundle
-  #   type: ReleaseBundle
-  #   configuration:
-  #     sourceDistribution: demoDist
-  #     name: demo_rb
-  #     version: v1.0.0
-  #
-  # - name: signed_bundle
-  #   type: ReleaseBundle
-  #   configuration:
-  #     sourceDistribution: demoDist
-  #     name: demo_rb
-  #     version: v1.0.0
-  #
-  # - name: distribution_rules
-  #   type: DistributionRule
-  #   configuration:
-  #     sourceDistribution: demoDist
-  #     serviceName: "*"
-  #     siteName: "*"
-  #     cityName: "*"
-  #     countryCodes:
-  #       - "CN"
-  #       - "GB"
+  - name: app_release
+    type: ReleaseBundle
+    configuration:
+      sourceDistribution: int_distribution
+
+  - name: signed_app_release
+    type: ReleaseBundle
+    configuration:
+      sourceDistribution: int_distribution
+
+  - name: distribution_rules
+    type: DistributionRule
+    configuration:
+      sourceDistribution: int_distribution
+      serviceName: "*"
+      siteName: "*"
+      cityName: "*"
+      countryCodes:
+        - "CN"
+        - "GB"
   #
   # - name: deploy_vm
   #   type: VmCluster
@@ -275,47 +271,45 @@ pipelines:
           outputResources:
             - name: app_promoted_build
 
+  - name: release_application
+    steps:
+      - name: create_app_bundle
+        type: CreateReleaseBundle
+        configuration:
+          releaseBundleName: app_rb
+          releaseBundleVersion: v1.0.${run_number}
+          dryRun: false
+          sign: false
+          description: "some random test description"
+          inputResources:
+            - name: gosvc_promoted_build
+              trigger: false
+            - name: app_promoted_build
+              trigger: false
+          outputResources:
+            - name: app_release
+          releaseNotes:
+            syntax: markdown
+            content: |
+              ## Heading
+                * Bullet
+                * Points
 
-#
-#   - name: demo_release_mgmt
-#     steps:
-#       - name: bundle
-#         type: CreateReleaseBundle
-#         configuration:
-#           releaseBundleName: demo_rb
-#           releaseBundleVersion: v1.0.${run_number}
-#           dryRun: false
-#           sign: false
-#           description: "some random test description"
-#           inputResources:
-#             - name: gosvc_promoted_build_info
-#               trigger: false
-#             - name: appl_promoted_build_info
-#               trigger: false
-#           outputResources:
-#             - name: release_bundle
-#           releaseNotes:
-#             syntax: markdown
-#             content: |
-#               ## Heading
-#                 * Bullet
-#                 * Points
-#
-#       - name: sign
-#         type: SignReleaseBundle
-#         configuration:
-#           inputResources:
-#             - name: release_bundle
-#           outputResources:
-#             - name: signed_bundle
-#
-#       - name: distribute
-#         type: DistributeReleaseBundle
-#         configuration:
-#           dryRun: false
-#           inputResources:
-#             - name: signed_bundle
-#             - name: distribution_rules
+      - name: sign_app_bundle
+        type: SignReleaseBundle
+        configuration:
+          inputResources:
+            - name: app_release
+          outputResources:
+            - name: signed_app_release
+
+      - name: distribute_app_bundle
+        type: DistributeReleaseBundle
+        configuration:
+          dryRun: false
+          inputResources:
+            - name: signed_app_release
+            - name: distribution_rules
 #
 #       - name: deploy
 #         type: Bash
