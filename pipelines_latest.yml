@@ -58,7 +58,9 @@ resources:
     type: ReleaseBundle
     configuration:
       sourceDistribution: int_distribution
-
+      name: app_rb
+      version: v1.0.0
+      
   - name: distribution_rules
     type: DistributionRule
     configuration:
