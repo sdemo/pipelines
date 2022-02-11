@@ -170,7 +170,7 @@ pipelines:
         configuration:
           npmArgs: --no-progress --no-audit
           sourceLocation: .
-          repositoryName: npm-virtual
+          repositoryName: pip-npm-virtual
           inputResources:
             - name: frontend_code
           integrations:
