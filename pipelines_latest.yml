@@ -137,9 +137,10 @@ pipelines:
             - name: gosvc_promoted_build
 
   - name: app_dev
-    environmentVariables:
-      readOnly:
-        JFROG_CLI_BUILD_NAME: app_build
+    configuration:
+      environmentVariables:
+        readOnly:
+          JFROG_CLI_BUILD_NAME: app_build
     steps:
       - name: bld_backend
         type: MvnBuild
