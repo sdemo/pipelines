@@ -51,6 +51,8 @@ resources:
     type: ReleaseBundle
     configuration:
       sourceDistribution: int_distribution
+      name: app_rb
+      version: v1.0.0
 
   - name: signed_app_release
     type: ReleaseBundle
