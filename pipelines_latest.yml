@@ -197,7 +197,7 @@ pipelines:
             - npm run build
       #      - add_run_files $tempStateLocation/. npmBuildInputGitRepo
             - jfrog rt npm-config --repo-deploy pip-npm-dev-local --server-id-deploy demo_art
-            - jfrog rt npm-publish
+            - jfrog rt npm-publish --detailed-summary
 
       #
       # - name: publish_frontend
