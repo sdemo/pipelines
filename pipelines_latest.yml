@@ -60,7 +60,7 @@ resources:
       sourceDistribution: int_distribution
       name: app_rb
       version: v1.0.0
-      
+
   - name: distribution_rules
     type: DistributionRule
     configuration:
@@ -168,6 +168,7 @@ pipelines:
       - name: bld_frontend
         type: NpmBuild
         configuration:
+          affinityGroup: npmBuild
           npmArgs: --no-progress --no-audit
           sourceLocation: .
           repositoryName: pip-npm-virtual
@@ -175,33 +176,42 @@ pipelines:
             - name: frontend_code
           integrations:
             - name: demo_art
+          execution:
+            onComplete:
+              - cp -r $res_frontend_code_resourcePath $shared_workspace
+              - rm -rf $steplet_run_state_dir/npmBuildInputGitRepo
 
-      - name: pack_frontend
+      - name: pblsh_frontend
         type: Bash
         configuration:
+          affinityGroup: npmBuild
           inputSteps:
             - name: bld_frontend
           integrations:
             - name: demo_art
         execution:
           onStart:
-            - export tempStateLocation="$step_tmp_dir/npmSourceState"
-            - restore_run_files npmBuildInputGitRepo $tempStateLocation
-            - pushd $tempStateLocation
+      #      - export tempStateLocation="$step_tmp_dir/npmSourceState"
+      #      - restore_run_files npmBuildInputGitRepo $tempStateLocation
+            - pushd $shared_workspace/frontend_code
             - npm run build
-            - add_run_files $tempStateLocation/. npmBuildInputGitRepo
+      #      - add_run_files $tempStateLocation/. npmBuildInputGitRepo
+            - jfrog rt npm-config --repo-deploy pip-npm-dev-local --server-id-deploy demo_art
+            - jfrog rt npm-publish
 
-      - name: publish_frontend
-        type: NpmPublish
-        configuration:
-          repositoryName: pip-npm-dev-local
-          inputSteps:
-            - name: pack_frontend
-          integrations:
-            - name: demo_art
-        execution:
-          onStart:
-            - export inputNpmBuildStepName="bld_frontend"
+      #
+      # - name: publish_frontend
+      #   type: NpmPublish
+      #   configuration:
+      #     affinityGroup: npmBuild
+      #     repositoryName: pip-npm-dev-local
+      #     inputSteps:
+      #       - name: pack_frontend
+      #     integrations:
+      #       - name: demo_art
+      #   execution:
+      #     onStart:
+      #       - export inputNpmBuildStepName="bld_frontend"
 
       - name: build_app
         type: Bash
@@ -215,7 +225,7 @@ pipelines:
               trigger: false
           inputSteps:
             - name: bld_backend
-            - name: publish_frontend
+            - name: pblsh_frontend
           integrations:
             - name: demo_art
         execution:
