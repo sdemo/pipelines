@@ -176,10 +176,10 @@ pipelines:
             - name: frontend_code
           integrations:
             - name: demo_art
-          execution:
-            onComplete:
-              - cp -r $res_frontend_code_resourcePath $shared_workspace
-              - rm -rf $steplet_run_state_dir/npmBuildInputGitRepo
+        execution:
+          onComplete:
+            - cp -r $res_frontend_code_resourcePath $shared_workspace
+            - rm -rf $steplet_run_state_dir/npmBuildInputGitRepo
 
       - name: pblsh_frontend
         type: Bash
