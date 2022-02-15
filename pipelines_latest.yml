@@ -68,8 +68,8 @@ resources:
       serviceName: "*"
       siteName: "*"
       cityName: "*"
-      countryCodes: "*"
-        # - "CN"
+      countryCodes: 
+         - "*"
         # - "GB"
   #
   # - name: deploy_vm
