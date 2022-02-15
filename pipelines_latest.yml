@@ -68,9 +68,9 @@ resources:
       serviceName: "*"
       siteName: "*"
       cityName: "*"
-      countryCodes:
-        - "CN"
-        - "GB"
+      countryCodes: "*"
+        # - "CN"
+        # - "GB"
   #
   # - name: deploy_vm
   #   type: VmCluster
