@@ -25,6 +25,8 @@ resources:
     configuration:
       path: sdemo/java-backend
       gitProvider: sdemo
+      branches:
+        include: ^master$
 
   - name: app_build
     type: BuildInfo
@@ -46,6 +48,8 @@ resources:
     configuration:
       path: sdemo/vue-frontend
       gitProvider: sdemo
+      branches:
+        include: ^master$
 
   - name: app_release
     type: ReleaseBundle
