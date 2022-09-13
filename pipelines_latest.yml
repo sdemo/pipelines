@@ -176,7 +176,7 @@ pipelines:
             type: image
             image:
               auto:
-                language: nodejs
+                language: node
                 version: "14"
           affinityGroup: npmBuild
           npmArgs: --no-progress --no-audit
@@ -198,7 +198,7 @@ pipelines:
             type: image
             image:
               auto:
-                language: nodejs
+                language: node
                 version: "14"
           affinityGroup: npmBuild
           inputSteps:
