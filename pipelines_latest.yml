@@ -68,7 +68,7 @@ resources:
       serviceName: "*"
       siteName: "*"
       cityName: "*"
-      countryCodes: 
+      countryCodes:
          - "*"
         # - "GB"
   #
@@ -168,6 +168,12 @@ pipelines:
       - name: bld_frontend
         type: NpmBuild
         configuration:
+          runtime:
+            type: image
+            image:
+              auto:
+                language: nodejs
+                version: "14"
           affinityGroup: npmBuild
           npmArgs: --no-progress --no-audit
           sourceLocation: .
@@ -184,6 +190,12 @@ pipelines:
       - name: pblsh_frontend
         type: Bash
         configuration:
+          runtime:
+            type: image
+            image:
+              auto:
+                language: nodejs
+                version: "14"
           affinityGroup: npmBuild
           inputSteps:
             - name: bld_frontend
