@@ -89,6 +89,7 @@ pipelines:
       - name: bld_svc
         type: DockerBuild
         configuration:
+          affinityGroup: dockerbuild
           dockerFileLocation: .
           dockerFileName: Dockerfile
 #           dockerImageName: avinci-docker-local.jfrog.io/gosvc
@@ -104,6 +105,7 @@ pipelines:
       - name: push_svc
         type: DockerPush
         configuration:
+          affinityGroup: dockerbuild
           targetRepository: pip-docker-dev-local
           forceXrayScan: true
           failOnScan: true
