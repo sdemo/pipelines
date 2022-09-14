@@ -1,1 +1,1 @@
-# Pipelines demo
+# Pipelines demo application
