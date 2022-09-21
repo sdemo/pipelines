@@ -52,10 +52,16 @@ resources:
         include: ^master$
 
   - name: frontend_package
-    type: FileSPec
+    type: FileSpec
     configuration:
       sourceArtifactory: demo_art
       pattern: "pip-npm-dev-local/frontend/-/frontend-3.0.0.tgz"
+
+  - name: backend_package
+    type: FileSpec
+    configuration:
+      sourceArtifactory: demo_art
+      pattern: "libs-release-local/com/jfrog/backend/1.0.0/backend-1.0.0.jar"
 
   - name: app_release
     type: ReleaseBundle
@@ -165,6 +171,8 @@ pipelines:
             - name: backend_code
           integrations:
             - name: demo_art
+          outputResources:
+            - name: backend_package
           runtime:
             type: image
             image:
@@ -252,15 +260,16 @@ pipelines:
             - name: backend_code
               trigger: false
             - name: frontend_package
-          inputSteps:
-            - name: bld_backend
+            - name: backend_package
           integrations:
             - name: demo_art
         execution:
           onStart:
             - rm -rf $run_dir/workspace/jfrog
-            - retry_command jfrog rt config --url $int_demo_art_url --user $int_demo_art_user --apikey $int_demo_art_apikey --interactive=false
             - pushd $res_backend_code_resourcePath
+            - cp -r $res_frontend_package_resourcePath/* .
+            - cp -r $res_backend_package_resourcePath/* .
+            - ls -latr
             - add_run_variables buildStepName=${step_name}
             - add_run_variables ${step_name}_buildNumber=${run_number}
             - add_run_variables ${step_name}_buildName=${pipeline_name}
