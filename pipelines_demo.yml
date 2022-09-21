@@ -56,12 +56,16 @@ resources:
     configuration:
       sourceArtifactory: demo_art
       pattern: "pip-npm-dev-local/frontend/-/frontend-3.0.0.tgz"
+      recursive: false
+      flat: true
 
   - name: backend_package
     type: FileSpec
     configuration:
       sourceArtifactory: demo_art
       pattern: "libs-release-local/com/jfrog/backend/1.0.0/backend-1.0.0.jar"
+      recursive: false
+      flat: true
 
   - name: app_release
     type: ReleaseBundle
