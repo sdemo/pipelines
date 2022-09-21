@@ -51,6 +51,12 @@ resources:
       branches:
         include: ^master$
 
+  - name: frontend_package
+    type: FileSPec
+    configuration:
+      sourceArtifactory: demo_art
+      pattern: "pip-npm-dev-local/frontend/-/frontend-3.0.0.tgz"
+
   - name: app_release
     type: ReleaseBundle
     configuration:
@@ -150,10 +156,11 @@ pipelines:
       - name: bld_backend
         type: MvnBuild
         configuration:
-          sourceLocation: .
+          resolverSnapshotRepo: libs-snapshot
+          resolverReleaseRepo: libs-release
+          deployerSnapshotRepo: libs-snapshot-local
+          deployerReleaseRepo: libs-release-local
           mvnCommand: clean install -ntp
-          configFileLocation: .
-          configFileName: mvn-art-config
           inputResources:
             - name: backend_code
           integrations:
@@ -237,11 +244,14 @@ pipelines:
         type: Bash
         configuration:
           environmentVariables:
+
+
             dockerImageName: pipdemo.jfrog.io/pip-docker-dev-local/app
             dockerImageTag: ${run_number}
           inputResources:
             - name: backend_code
               trigger: false
+            - name: frontend_package
           inputSteps:
             - name: bld_backend
             - name: pblsh_frontend
