@@ -271,8 +271,8 @@ pipelines:
           onStart:
             - rm -rf $run_dir/workspace/jfrog
             - pushd $res_backend_code_resourcePath
-            - cp -r $res_frontend_package_resourcePath/* .
-            - cp -r $res_backend_package_resourcePath/* .
+            - cp $res_frontend_package_resourcePath/frontend-3.0.0.tgz ./client.tgz
+            - cp $res_backend_package_resourcePath/backend-1.0.0.jar ./server.jar
             - ls -latr
             - add_run_variables buildStepName=${step_name}
             - add_run_variables ${step_name}_buildNumber=${run_number}
