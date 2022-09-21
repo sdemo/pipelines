@@ -213,6 +213,7 @@ pipelines:
       #      - export tempStateLocation="$step_tmp_dir/npmSourceState"
       #      - restore_run_files npmBuildInputGitRepo $tempStateLocation
             - pushd $shared_workspace/frontend_code
+            - npm update
             - npm run build
       #      - add_run_files $tempStateLocation/. npmBuildInputGitRepo
             - jfrog rt npm-config --repo-deploy pip-npm-dev-local --server-id-deploy demo_art
