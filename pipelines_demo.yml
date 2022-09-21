@@ -213,6 +213,8 @@ pipelines:
           affinityGroup: npmBuild
           inputSteps:
             - name: bld_frontend
+          outputResources:
+            - name: frontend_package
           integrations:
             - name: demo_art
         execution:
@@ -244,8 +246,6 @@ pipelines:
         type: Bash
         configuration:
           environmentVariables:
-
-
             dockerImageName: pipdemo.jfrog.io/pip-docker-dev-local/app
             dockerImageTag: ${run_number}
           inputResources:
@@ -254,7 +254,6 @@ pipelines:
             - name: frontend_package
           inputSteps:
             - name: bld_backend
-            - name: pblsh_frontend
           integrations:
             - name: demo_art
         execution:
