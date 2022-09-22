@@ -4,6 +4,12 @@ resources:
     configuration:
       path: sdemo/go-service
       gitProvider: sdemo
+      buildOn:
+        commit: true
+        pullRequestCreate: true
+        pullRequestClose: true
+        releaseCreate: true
+        tagCreate: true
 
   - name: gosvc_build
     type: BuildInfo
